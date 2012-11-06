@@ -9,7 +9,7 @@ global imloadfunc;
 reducesize = 0; 
     
 % This is where the cbcl face images reside
-thepath = 'orl-faces/';
+thepath = './orl-faces/';
 
 % Create the data matrix
 if reducesize, V = zeros(46*56,200); 
