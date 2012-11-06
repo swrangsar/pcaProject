@@ -13,12 +13,17 @@ testDATA = orldata_test; % Get test images from orldata
 % Fill to complete 3.(a)
 % Use one image from the training data set 
 load DATA;
-img1 = DATA(:, 1); % fill
-h = figure; imshow( reshape(img1, 112, 92), []);
-print(h, '-dtiffn', 'orlImgTrain');
+orlImgTrain = DATA(:, 1); % fill
+figure; imshow( reshape(orlImgTrain, 112, 92), []);
+print('-dtiffn', [plotPath 'orlImgTrain']);
 
 % % Reconstruct the above image using the PCs
-% img1_est = ; % fill
+load pcaProj;
+load w; load psi;
+weightVector = pcaProj(:, 1);
+orlImgTrainEst = w(:, 1);
+
+img1_est = pcaProj(:, 1); % fill
 % img1_err = ; % fill
 % 
 % % Case 2: Test using a test image from orl data base
