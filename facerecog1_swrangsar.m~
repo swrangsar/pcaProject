@@ -74,12 +74,12 @@ save testMSE testMSE;
 
 
 
-% Case 3: Test using your face image 
+%% Case 3: Test using your face image 
 % Read in your image
 % Fill to complete 3.(c)
 
 load myImg
-myImg = myImg(:);
+myImg = double(myImg(:));
 figure; imshow( reshape(myImg, 112, 92), []);
 print('-dtiffn', [plotPath 'myImgS']);
 
@@ -99,11 +99,11 @@ end
 myImgEst = myImgEst + psi;
 figure; imshow( reshape(myImgEst, 112, 92), []);
 print('-dtiffn', [plotPath 'myImgEstS']);
-clear my; clear psi; clear w;
+clear psi; clear w;
 
-imgTestError = norm(orlImgTest - orlImgTestEst); % fill
-testMSE = (imgTestError * imgTestError)/length(orlImgTestEst(:));
-save testMSE testMSE;
+myImgError = norm(myImg - myImgEst); % fill
+myImgMSE = (myImgError * myImgError)/length(myImg);
+save myImgMSE myImgMSE;
 
 
 % Generate plots to show original and reconstructed images

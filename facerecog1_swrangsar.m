@@ -5,6 +5,7 @@ cd ~/Desktop/pcaProject/
 
 pca_orl(200);
 
+tic
 plotPath = './results/';
 
 testDATA = orldata_test; % Get test images from orldata
@@ -74,7 +75,7 @@ save testMSE testMSE;
 
 
 
-% Case 3: Test using your face image 
+%% Case 3: Test using your face image 
 % Read in your image
 % Fill to complete 3.(c)
 
@@ -105,6 +106,7 @@ myImgError = norm(myImg - myImgEst); % fill
 myImgMSE = (myImgError * myImgError)/length(myImg);
 save myImgMSE myImgMSE;
 
+toc
 
 % Generate plots to show original and reconstructed images
 
