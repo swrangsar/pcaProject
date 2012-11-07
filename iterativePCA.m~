@@ -1,12 +1,7 @@
 function iterativePCA(data, subDim)
 
 principalComponentMatrix = getPrincipalComponentMatrix(data, subDim);
-save eigenFaces principalComponentMatrix;
-
-eigenValueVector = getEigenValueVector(data, principalComponentMatrix);
-save eigenValues eigenValueVector;
-clear principalComponentMatrix eigenValueVector;
-
+save 
 end
 
 
@@ -80,7 +75,7 @@ end
 %% get eigenvalue matrix 
 function eigenValueVector = getEigenValueVector(data, principalComponentMatrix)
 
-[~, subDim] = size(principalComponentMatrix);
+[imageSize, subDim] = size(principalComponentMatrix);
 eigenValueVector = zeros(subDim, 1);
 
 for k = 1:subDim
