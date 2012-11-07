@@ -2,10 +2,10 @@ close all; clear all;
 
 cd ~/Desktop/pcaProject/
 
-
-pca_orl(200);
-
 tic
+pca_orl(200);
+toc
+
 plotPath = './results/';
 imgFormat = '-dtiffn';
 
@@ -107,7 +107,4 @@ myImgError = norm(myImg - myImgEst); % fill
 myImgMSE = (myImgError * myImgError)/length(myImg);
 save myImgMSE myImgMSE;
 
-toc
-
 % Generate plots to show original and reconstructed images
-

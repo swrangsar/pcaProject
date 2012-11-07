@@ -2,12 +2,12 @@ close all; clear all;
 
 cd ~/Desktop/pcaProject/
 
-
-pca_orl(200);
-
 tic
+pca_orl(200);
+toc
+
 plotPath = './results/';
-fileFormat = '-dpng';
+imgFormat = '-dtiffn';
 
 testDATA = orldata_test; % Get test images from orldata
 
@@ -17,7 +17,7 @@ testDATA = orldata_test; % Get test images from orldata
 load DATA;
 orlImgTrain = DATA(:, 3); % fill
 figure; imshow( reshape(orlImgTrain, 112, 92), []);
-print('-dpng', [plotPath 'orlImgTrainS']);
+print(imgFormat, [plotPath 'orlImgTrainS']);
 
 % % Reconstruct the above image using the PCs
 load psi;
@@ -107,7 +107,25 @@ myImgError = norm(myImg - myImgEst); % fill
 myImgMSE = (myImgError * myImgError)/length(myImg);
 save myImgMSE myImgMSE;
 
-toc
 
+%% plotting eigenvalues
+load pcaEigVals;
+figure;
+plot(pcaEigVals); axis tight;
+title('Eigenvalus for PCA orl with subdimension 200');
+ylabel('Magnitude of eigenvalues');
+print(imgFormat, [plotPath 'eigenValues200']);
+clear pcaEigVals;
 % Generate plots to show original and reconstructed images
 
+%% plotting eigenfaces
+
+load w;
+% plotting first 5 eigenfaces
+numberOfEigenfaces = 5;
+
+for k = 1:numberOfEigenfaces
+    figure; imshow( reshape(w(:,k), 112, 92), []);
+    print(imgFormat, [plotPath 'eigenface' k]);
+end
+cl

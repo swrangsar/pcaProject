@@ -2,10 +2,10 @@ close all; clear all;
 
 cd ~/Desktop/pcaProject/
 
-
-pca_orl(100);
-
 tic
+pca_orl(100);
+toc
+
 plotPath = './results/subDim100/';
 
 testDATA = orldata_test; % Get test images from orldata
@@ -106,7 +106,7 @@ myImgError = norm(myImg - myImgEst); % fill
 myImgMSE100 = (myImgError * myImgError)/length(myImg);
 save myImgMSE100 myImgMSE100;
 
-toc
+
 
 % Generate plots to show original and reconstructed images
 
