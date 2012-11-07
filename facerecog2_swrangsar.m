@@ -36,8 +36,8 @@ print('-dtiffn', [plotPath 'orlImgTrainEst100']);
 clear DATA; clear psi; clear w;
 
 img1_err = norm(orlImgTrain - orlImgTrainEst); % fill
-trainMSE = (img1_err * img1_err)/length(orlImgTrainEst(:));
-save trainMSE trainMSE;
+trainMSE100 = (img1_err * img1_err)/length(orlImgTrainEst(:));
+save trainMSE100 trainMSE100;
 
 
 
@@ -69,8 +69,8 @@ print('-dtiffn', [plotPath 'orlImgTestEst100']);
 clear testDATA; clear psi; clear w;
 
 imgTestError = norm(orlImgTest - orlImgTestEst); % fill
-testMSE = (imgTestError * imgTestError)/length(orlImgTestEst(:));
-save testMSE testMSE;
+testMSE100 = (imgTestError * imgTestError)/length(orlImgTestEst(:));
+save testMSE100 testMSE100;
 
 
 
@@ -103,8 +103,8 @@ print('-dtiffn', [plotPath 'myImgEst100']);
 clear psi; clear w;
 
 myImgError = norm(myImg - myImgEst); % fill
-myImgMSE = (myImgError * myImgError)/length(myImg);
-save myImgMSE myImgMSE;
+myImgMSE100 = (myImgError * myImgError)/length(myImg);
+save myImgMSE100 myImgMSE100;
 
 toc
 

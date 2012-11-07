@@ -7,6 +7,7 @@ pca_orl(200);
 
 tic
 plotPath = './results/';
+imgFormat = '-dtiffn';
 
 testDATA = orldata_test; % Get test images from orldata
 
@@ -16,7 +17,7 @@ testDATA = orldata_test; % Get test images from orldata
 load DATA;
 orlImgTrain = DATA(:, 3); % fill
 figure; imshow( reshape(orlImgTrain, 112, 92), []);
-print('-dtiffn', [plotPath 'orlImgTrainS']);
+print(imgFormat, [plotPath 'orlImgTrainS']);
 
 % % Reconstruct the above image using the PCs
 load psi;
@@ -32,7 +33,7 @@ end
 
 orlImgTrainEst = orlImgTrainEst + psi;
 figure; imshow( reshape(orlImgTrainEst, 112, 92), []);
-print('-dtiffn', [plotPath 'orlImgTrainEstS']);
+print(imgFormat, [plotPath 'orlImgTrainEstS']);
 clear DATA; clear psi; clear w;
 
 img1_err = norm(orlImgTrain - orlImgTrainEst); % fill
@@ -48,7 +49,7 @@ save trainMSE trainMSE;
 orlImgTest = testDATA(:, 13);
 % Fill to complete 3.(b)
 figure; imshow( reshape(orlImgTest, 112, 92), []);
-print('-dtiffn', [plotPath 'orlImgTestS']);
+print(imgFormat, [plotPath 'orlImgTestS']);
 
 % % Reconstruct the above image using the PCs
 load psi;
@@ -65,7 +66,7 @@ end
 
 orlImgTestEst = orlImgTestEst + psi;
 figure; imshow( reshape(orlImgTestEst, 112, 92), []);
-print('-dtiffn', [plotPath 'orlImgTestEstS']);
+print(imgFormat, [plotPath 'orlImgTestEstS']);
 clear testDATA; clear psi; clear w;
 
 imgTestError = norm(orlImgTest - orlImgTestEst); % fill
@@ -82,7 +83,7 @@ save testMSE testMSE;
 load myImg
 myImg = double(myImg(:));
 figure; imshow( reshape(myImg, 112, 92), []);
-print('-dtiffn', [plotPath 'myImgS']);
+print(imgFormat, [plotPath 'myImgS']);
 
 % % Reconstruct the above image using the PCs
 load psi;
@@ -99,7 +100,7 @@ end
 
 myImgEst = myImgEst + psi;
 figure; imshow( reshape(myImgEst, 112, 92), []);
-print('-dtiffn', [plotPath 'myImgEstS']);
+print(imgFormat, [plotPath 'myImgEstS']);
 clear psi; clear w;
 
 myImgError = norm(myImg - myImgEst); % fill
