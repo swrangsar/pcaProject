@@ -29,7 +29,7 @@ disp('Running PCA modified by Swrangsar Basumatary')
 
 DATA = orldata_train;
 save DATA DATA;
-[imageSize, numberOfImages] = size(DATA);
+[~, numberOfImages] = size(DATA);
 imageSpace = DATA;
 save imageSpace imageSpace;
 %clear DATA;
@@ -49,32 +49,20 @@ save zeroMeanSpace zeroMeanSpace;
 clear imageSpace;
 disp('zeroMeanSpace calculated')
 
-L = zeroMeanSpace' * zeroMeanSpace;
+disp('Control handed over to iterative PCA')
+[principalComponentMatrix, eigenValueVector] = iterativePCA(zeroMeanSpace);
+clear zeroMeanSpace;
 
 
-% % tempSpace = zeroMeanSpace'/sqrt(dim - 1);
-% % [~, S, V] = svd(tempSpace);
-% % clear zeroMeanSpace;
-% % clear tempSpace;
-% % disp('svd done')
-% % 
-% % % the eigenvalues
-% % S = diag(S);
-% % eigenValues = S .* S;
-% % save eigenValues eigenValues;
-% % clear S;
-% % eigenFaces = V;
-% % save eigenFaces eigenFaces;
-% % 
-% % clear V;
-% % eigenFaces = eigenFaces(:, 1:subDim);
-% % load zeroMeanSpace;
-% % projectedData = eigenFaces' * zeroMeanSpace;
-% % clear zeroMeanSpace;
-% % clear psi;
-% % eigenValues = eigenValues(:, 1:subDim);
-% % clear eigenValues;
-% % save projectedData projectedData;
-% % clear eigenValues eigenFaces projectedData;
+
+[eigenValues, eigenValuesIndices] = sort(eigenValueVector, 'descend');
+eigenValues = eigenValues(1:subDim);
+save eigenValues eigenValues;
+clear eigenValues;
+eigenFaces = principalComponentMatrix(:, eigenValuesIndices);
+clear principalComponentMatrix;
+eigenFaces = eigenFaces(:, 1:subDim);
+save eigenFaces eigenFaces;
+clear eigenFaces;
 
 end

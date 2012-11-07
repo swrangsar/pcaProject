@@ -1,11 +1,8 @@
-function iterativePCA(data, subDim)
+function [principalComponentMatrix, eigenValueVector]= iterativePCA(data)
 
-principalComponentMatrix = getPrincipalComponentMatrix(data, subDim);
-save eigenFaces principalComponentMatrix;
+principalComponentMatrix = getPrincipalComponentMatrix(data);
 
 eigenValueVector = getEigenValueVector(data, principalComponentMatrix);
-save eigenValues eigenValueVector;
-clear principalComponentMatrix eigenValueVector;
 
 end
 
@@ -26,6 +23,7 @@ for k = 1:numberOfIterations
     end
 %     norm(t)
     principalComponent = t/norm(t);
+    disp('got a principal component...')
 end
 
 nextData = data - repmat(principalComponent, 1, dim);
@@ -36,18 +34,15 @@ end
 
 %% get principal component matrix
 
-function principalComponentMatrix = getPrincipalComponentMatrix(data, subDim)
+function principalComponentMatrix = getPrincipalComponentMatrix(data)
 
 [imageSize, dim] = size(data);
 
-principalComponentMatrix = zeros(imageSize, min(subDim, dim));
+principalComponentMatrix = zeros(imageSize, dim);
 nextData = data;
-for k = 1:subDim
+for k = 1:dim
     [principalComponent, nextData] = getPrincipalComponent(nextData);
     principalComponentMatrix(:, k) = principalComponent;
-    if subDim == k
-        break;
-    end
 end
 
 end
@@ -80,10 +75,10 @@ end
 %% get eigenvalue matrix 
 function eigenValueVector = getEigenValueVector(data, principalComponentMatrix)
 
-[~, subDim] = size(principalComponentMatrix);
-eigenValueVector = zeros(subDim, 1);
+dim = size(principalComponentMatrix, 2);
+eigenValueVector = zeros(dim, 1);
 
-for k = 1:subDim
+for k = 1:dim
     eigenValueVector(k) = getEigenValue(data, principalComponentMatrix(:, k));
 end
 
