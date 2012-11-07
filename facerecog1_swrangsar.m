@@ -78,6 +78,33 @@ save testMSE testMSE;
 % Read in your image
 % Fill to complete 3.(c)
 
+load myImg
+myImg = double(myImg(:));
+figure; imshow( reshape(myImg, 112, 92), []);
+print('-dtiffn', [plotPath 'myImgS']);
+
+% % Reconstruct the above image using the PCs
+load psi;
+zeroMeanImage = myImg - psi;
+
+load w;
+weightVector = w' * zeroMeanImage;
+
+
+myImgEst = zeros(size(w(:, 1)));
+for k = 1:length(weightVector)
+    myImgEst = myImgEst + (weightVector(k) * w(:, k));
+end
+
+myImgEst = myImgEst + psi;
+figure; imshow( reshape(myImgEst, 112, 92), []);
+print('-dtiffn', [plotPath 'myImgEstS']);
+clear psi; clear w;
+
+myImgError = norm(myImg - myImgEst); % fill
+myImgMSE = (myImgError * myImgError)/length(myImg);
+save myImgMSE myImgMSE;
+
 
 % Generate plots to show original and reconstructed images
 

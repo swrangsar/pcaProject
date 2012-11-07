@@ -44,7 +44,7 @@ save trainMSE trainMSE;
 
 
 
-orlImgTest = testDATA(:, 50);
+orlImgTest = testDATA(:, 13);
 % Fill to complete 3.(b)
 figure; imshow( reshape(orlImgTest, 112, 92), []);
 print('-dtiffn', [plotPath 'orlImgTestS']);
@@ -65,7 +65,7 @@ end
 orlImgTestEst = orlImgTestEst + psi;
 figure; imshow( reshape(orlImgTestEst, 112, 92), []);
 print('-dtiffn', [plotPath 'orlImgTestEstS']);
-clear DATA; clear psi; clear w;
+clear testDATA; clear psi; clear w;
 
 imgTestError = norm(orlImgTest - orlImgTestEst); % fill
 testMSE = (imgTestError * imgTestError)/length(orlImgTestEst(:));
@@ -77,6 +77,33 @@ save testMSE testMSE;
 % Case 3: Test using your face image 
 % Read in your image
 % Fill to complete 3.(c)
+
+load myImg
+myImg = myImg(:);
+figure; imshow( reshape(myImg, 112, 92), []);
+print('-dtiffn', [plotPath 'myImgS']);
+
+% % Reconstruct the above image using the PCs
+load psi;
+zeroMeanImage = myImg - psi;
+
+load w;
+weightVector = w' * zeroMeanImage;
+
+
+myImgEst = zeros(size(w(:, 1)));
+for k = 1:length(weightVector)
+    myImgEst = myImgEst + (weightVector(k) * w(:, k));
+end
+
+myImgEst = myImgEst + psi;
+figure; imshow( reshape(myImgEst, 112, 92), []);
+print('-dtiffn', [plotPath 'myImgEstS']);
+clear my; clear psi; clear w;
+
+imgTestError = norm(orlImgTest - orlImgTestEst); % fill
+testMSE = (imgTestError * imgTestError)/length(orlImgTestEst(:));
+save testMSE testMSE;
 
 
 % Generate plots to show original and reconstructed images
