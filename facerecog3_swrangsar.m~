@@ -3,7 +3,7 @@ close all; clear all;
 cd ~/Desktop/pcaProject/
 
 tic
-pcaModified(200);
+pcaModified(20);
 toc
 
 plotPath = './resultsModified/';
@@ -41,70 +41,70 @@ trainModMSE = (img1_err * img1_err)/length(modImgTrainEst(:));
 save trainModMSE trainModMSE;
 
 
-% 
-% %% Case 2: Test using a test image from orl data base
-% 
-% 
-% 
-% orlImgTest = testDATA(:, 13);
-% % Fill to complete 3.(b)
-% figure; imshow( reshape(orlImgTest, 112, 92), []);
-% print(imgFormat, [plotPath 'orlImgTestS']);
-% 
-% % % Reconstruct the above image using the PCs
-% load psi;
-% zeroMeanImage = orlImgTest - psi;
-% 
-% load w;
-% weightVector = w' * zeroMeanImage;
-% 
-% 
-% orlImgTestEst = zeros(size(w(:, 1)));
-% for k = 1:length(weightVector)
-%     orlImgTestEst = orlImgTestEst + (weightVector(k) * w(:, k));
-% end
-% 
-% orlImgTestEst = orlImgTestEst + psi;
-% figure; imshow( reshape(orlImgTestEst, 112, 92), []);
-% print(imgFormat, [plotPath 'orlImgTestEstS']);
-% clear testDATA; clear psi; clear w;
-% 
-% imgTestError = norm(orlImgTest - orlImgTestEst); % fill
-% testMSE = (imgTestError * imgTestError)/length(orlImgTestEst(:));
-% save testMSE testMSE;
-% 
-% 
-% 
-% 
-% %% Case 3: Test using your face image 
-% % Read in your image
-% % Fill to complete 3.(c)
-% 
-% load myImg
-% myImg = double(myImg(:));
-% figure; imshow( reshape(myImg, 112, 92), []);
-% print(imgFormat, [plotPath 'myImgS']);
-% 
-% % % Reconstruct the above image using the PCs
-% load psi;
-% zeroMeanImage = myImg - psi;
-% 
-% load w;
-% weightVector = w' * zeroMeanImage;
-% 
-% 
-% myImgEst = zeros(size(w(:, 1)));
-% for k = 1:length(weightVector)
-%     myImgEst = myImgEst + (weightVector(k) * w(:, k));
-% end
-% 
-% myImgEst = myImgEst + psi;
-% figure; imshow( reshape(myImgEst, 112, 92), []);
-% print(imgFormat, [plotPath 'myImgEstS']);
-% clear psi; clear w;
-% 
-% myImgError = norm(myImg - myImgEst); % fill
-% myImgMSE = (myImgError * myImgError)/length(myImg);
-% save myImgMSE myImgMSE;
-% 
-% % Generate plots to show original and reconstructed images
+
+%% Case 2: Test using a test image from orl data base
+
+
+
+modImgTest = testDATA(:, 13);
+% Fill to complete 3.(b)
+figure; imshow( reshape(modImgTest, 112, 92), []);
+print(imgFormat, [plotPath 'modImgTestS']);
+
+% % Reconstruct the above image using the PCs
+load psi;
+zeroMeanImage = modImgTest - psi;
+
+load eigenFaces;
+weightVector = eigenFaces' * zeroMeanImage;
+
+
+modImgTestEst = zeros(size(eigenFaces(:, 1)));
+for k = 1:length(weightVector)
+    modImgTestEst = modImgTestEst + (weightVector(k) * eigenFaces(:, k));
+end
+
+modImgTestEst = modImgTestEst + psi;
+figure; imshow( reshape(modImgTestEst, 112, 92), []);
+print(imgFormat, [plotPath 'modImgTestEstS']);
+clear testDATA; clear psi; clear eigenFaces;
+
+imgTestError = norm(modImgTest - modImgTestEst); % fill
+testModMSE = (imgTestError * imgTestError)/length(modImgTestEst(:));
+save testModMSE testModMSE;
+
+
+
+
+%% Case 3: Test using your face image 
+% Read in your image
+% Fill to complete 3.(c)
+
+load myImg
+modmyImg = double(myImg(:));
+figure; imshow( reshape(modmyImg, 112, 92), []);
+print(imgFormat, [plotPath 'modmyImgS']);
+
+% % Reconstruct the above image using the PCs
+load psi;
+zeroMeanImage = modmyImg - psi;
+
+load w;
+weightVector = w' * zeroMeanImage;
+
+
+myImgEst = zeros(size(w(:, 1)));
+for k = 1:length(weightVector)
+    myImgEst = myImgEst + (weightVector(k) * w(:, k));
+end
+
+myImgEst = myImgEst + psi;
+figure; imshow( reshape(myImgEst, 112, 92), []);
+print(imgFormat, [plotPath 'myImgEstS']);
+clear psi; clear w;
+
+myImgError = norm(myImg - myImgEst); % fill
+myImgMSE = (myImgError * myImgError)/length(myImg);
+save myImgMSE myImgMSE;
+
+% Generate plots to show original and reconstructed images

@@ -50,19 +50,9 @@ clear imageSpace;
 disp('zeroMeanSpace calculated')
 
 disp('Control handed over to iterative PCA')
-[principalComponentMatrix, eigenValueVector] = iterativePCA(zeroMeanSpace);
+% randomizedSVD(zeroMeanSpace, subDim);
+iterativePCA(zeroMeanSpace, subDim);
 clear zeroMeanSpace;
 
-
-
-[eigenValues, eigenValuesIndices] = sort(eigenValueVector, 'descend');
-eigenValues = eigenValues(1:subDim);
-save eigenValues eigenValues;
-clear eigenValues;
-eigenFaces = principalComponentMatrix(:, eigenValuesIndices);
-clear principalComponentMatrix;
-eigenFaces = eigenFaces(:, 1:subDim);
-save eigenFaces eigenFaces;
-clear eigenFaces;
 
 end

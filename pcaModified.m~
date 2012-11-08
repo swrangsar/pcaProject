@@ -53,8 +53,5 @@ disp('Control handed over to iterative PCA')
 iterativePCA(zeroMeanSpace, subDim);
 clear zeroMeanSpace;
 
-load eigenValueVector principalComponentMatrix
-
-[eigenValues, eigenValuesIndices] = sort(eigenValueVector, 'descend');
 
 end

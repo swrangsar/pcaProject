@@ -1,34 +1,39 @@
-function iterativePCA(data)
+function iterativePCA(data, subDim)
 
-principalComponentMatrix = getPrincipalComponentMatrix(data);
-save eigenFaces principalComponentMatrix;
+eigenFaces = getPrincipalComponentMatrix(data, subDim);
+save eigenFaces eigenFaces;
 
-eigenValueVector = getEigenValueVector(data, principalComponentMatrix);
-save eigenValues eigenValueVector;
-clear principalComponentMatrix eigenValueVector;
+% eigenValues = getEigenValueVector(data, eigenFaces);
+% save eigenValues eigenValues;
 
 end
 
 
 %% get a principal component and the data for the next principal component
 % calculation
-function [principalComponent, nextData] = getPrincipalComponent(data)
+function [principalComponent, nextData] = getPrincipalComponent(data, iterationNumber)
 
 % generate random vector
-[imageSize, dim] = size(data);
-principalComponent = rand(imageSize, 1);
+% [imageSize, dim] = size(data);
+data = data';
+scoreVector = data(:, randi(dim));
+prevScoreVector = scoreVector;
+difference = 1;
 
-numberOfIterations = 10;
-for k = 1:numberOfIterations
-    t = zeros(imageSize, 1);
-    for m = 1:dim
-        t = t + ((principalComponent' * data(:, m)) * (data(:, m)));
-    end
-%     norm(t)
-    principalComponent = t/norm(t);
+while difference > eps
+    loadingVector = (data' * scoreVector) / (scoreVector' * scoreVector);
+    loadingVector = loadingVector / norm(loadingVector);
+    prevScoreVector = scoreVector;
+    scoreVector = (data * loadingVector) / (loadingVector' * loadingVector);
+    difference = norm(prevScoreVector - scoreVector);
+    principalComponent = loadingVector; 
+    
+    disp(['difference: ' num2str(iterationNumber) ' : ' num2str(difference)]);
 end
+disp('got a principal component...')
 
-nextData = data - repmat(principalComponent, 1, dim);
+nextData = data - (scoreVector * principalComponent');
+nextData = nextData
 
 end
 
@@ -36,18 +41,15 @@ end
 
 %% get principal component matrix
 
-function principalComponentMatrix = getPrincipalComponentMatrix(data)
+function principalComponentMatrix = getPrincipalComponentMatrix(data, subDim)
 
-[imageSize, dim] = size(data);
+imageSize = size(data, 1);
 
-principalComponentMatrix = zeros(imageSize, min(subDim, dim));
+principalComponentMatrix = zeros(imageSize, subDim);
 nextData = data;
-for k = 1:d
-    [principalComponent, nextData] = getPrincipalComponent(nextData);
+for k = 1:subDim
+    [principalComponent, nextData] = getPrincipalComponent(nextData, k);
     principalComponentMatrix(:, k) = principalComponent;
-    if subDim == k
-        break;
-    end
 end
 
 end
@@ -80,7 +82,7 @@ end
 %% get eigenvalue matrix 
 function eigenValueVector = getEigenValueVector(data, principalComponentMatrix)
 
-[~, subDim] = size(principalComponentMatrix);
+subDim = size(principalComponentMatrix, 2);
 eigenValueVector = zeros(subDim, 1);
 
 for k = 1:subDim
