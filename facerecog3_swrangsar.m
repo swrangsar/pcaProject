@@ -3,7 +3,7 @@ close all; clear all;
 cd ~/Desktop/pcaProject/
 
 tic
-pcaModified(20);
+pcaModified(50);
 toc
 
 plotPath = './resultsModified/';
@@ -104,7 +104,7 @@ print(imgFormat, [plotPath 'modmyImgEstS']);
 clear psi; clear eigenFaces;
 
 myImgError = norm(modmyImg - modmyImgEst); % fill
-modmyImgMSE = (myImgError * myImgError)/length(modmyImg);
-save modmyImgMSE modmyImgMSE;
+myImgModMSE = (myImgError * myImgError)/length(modmyImg);
+save myImgModMSE myImgModMSE;
 
 % Generate plots to show original and reconstructed images
